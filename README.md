@@ -115,7 +115,7 @@ At the present moment, we have our state locally. Let's work as the team, we are
 
 > Note - you should have **ATLAS_TOKEN** exported as an environment variable, before next step
 
-- Run terraform init to download and initialize the backend :
+- Run terraform init to download and initialize the backend (you will need to answer `yes` for the backend question ) :
     ```
     terraform init                
 
@@ -188,9 +188,9 @@ and  if we open it, here are state details :
     ```
 
 # TODO
-- [ ] final update README
+
 
 # DONE
 - [x] - main code
-- [x] - updat readme
-
+- [x] - update readme
+- [x] - final update README
