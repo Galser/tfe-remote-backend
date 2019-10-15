@@ -8,7 +8,7 @@ This repo assumes general knowledge about Terraform for AWS, if not, please get 
 
 
 # Idea
-As our team grows, and collaboration is needed, having a local state file can cause slowdown.
+As our team grows, and collaboration is needed, having a local state file can cause a slowdown.
 
 In order to overcome this, we can have a remote state.
 
@@ -17,13 +17,13 @@ In order to overcome this, we can have a remote state.
 
 - First, we'll use Terraform Cloud as our backend. Terraform Cloud offers free remote state management. Terraform Cloud is the recommended best practice for remote state storage.
 If you don't have an account, please [sign up here for this guide](https://app.terraform.io/signup). For more information on Terraform Cloud, view this [getting started guide](https://learn.hashicorp.com/terraform/cloud/tf_cloud_gettingstarted).
-- You'll also need a user token to authenticate with Terraform Cloud. You can generate one on the [user settings page](https://app.terraform.io/app/settings/tokens). Save gnerated user token somewhere safe. We going to use this token as envrionment variable. Export it : 
+- You'll also need a user token to authenticate with Terraform Cloud. You can generate one on the [user settings page](https://app.terraform.io/app/settings/tokens). Save generated user token somewhere safe. We are going to use this token as environment variable. Export it : 
     ```bash
     export ATLAS_TOKEN="YOUR_TOKEN_HERE"
     ```
 - Now, create empty Git repo
 - Clone it to your computer, using tools of your choice
-- Create new branch  (from here and later I am going to reference command-line Git tools) :
+- Create a new branch  (from here and later I am going to reference command-line Git tools) :
     ```bash
     git checkout -b f-test-backend
     ``` 
@@ -35,7 +35,7 @@ If you don't have an account, please [sign up here for this guide](https://app.t
         }
     }
     ```
-- Init Terraform (this will use you code plus Terraform config with token), execute :
+- Init Terraform, execute :
     ```
     terraform init
     ```
@@ -65,10 +65,10 @@ If you don't have an account, please [sign up here for this guide](https://app.t
     ```
     Output
     ```
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  + create
-    Terraform will perform the following actions:
+    An execution plan has been generated and is shown below.
+    Resource actions are indicated with the following symbols:
+      + create
+        Terraform will perform the following actions:
 
     # null_resource.helloWorld will be created
     + resource "null_resource" "helloWorld" {
@@ -92,10 +92,10 @@ Resource actions are indicated with the following symbols:
 
 ## Switch to remote backend
 
-At present moment we have our state locally. Let's work as the team, we are about to switch to remote backend. But this will include some preparational steps. 
+At the present moment, we have our state locally. Let's work as the team, we are about to switch to the remote backend. But this will include some preparational steps. 
 
 - Create some organization in TFCLoud following this link [https://app.terraform.io/app/organizations/new](https://app.terraform.io/app/organizations/new)
-- Then, inside that organization, create new  workspace  ( Follow the lin that looks like : https://app.terraform.io/app/YOPUR_ORGANIZATION/workspaces/new ). You wil have a message - that you need to choose the version control provider that hosts your Terraform source code, just press **skip** and fill details in teh next screen. Write down you ORGANIZATION and WORKSPACE names
+- Then, inside that organization, create new workspace ( Follow the lin that looks like : https://app.terraform.io/app/YOPUR_ORGANIZATION/workspaces/new ). You wil have a message - that you need to choose the version control provider that hosts your Terraform source code, just press **skip** and fill details in the next screen. Write down your ORGANIZATION and WORKSPACE names
 - Change [main.tf](main.tf) to include the new backend as follows : 
     ```terraform
     terraform {
@@ -113,49 +113,48 @@ At present moment we have our state locally. Let's work as the team, we are abou
 - Now we can use `git add` and `git commit` to add the updated file to our repo.
 - We push to GitHUb and merge with a pull request.
 
-> Note - you should have **ATLAS_TOKEN** exported as environment variable, before next step
+> Note - you should have **ATLAS_TOKEN** exported as an environment variable, before next step
 
 - Run terraform init to download and initialize the backend :
-```
-terraform init                
+    ```
+    terraform init                
 
-Initializing the backend...
-Do you want to copy existing state to the new backend?
-  Pre-existing state was found while migrating the previous "local" backend to the
-  newly configured "atlas" backend. No existing state was found in the newly
-  configured "atlas" backend. Do you want to copy this state to the new "atlas"
-  backend? Enter "yes" to copy and "no" to start with an empty state.
+    Initializing the backend...
+    Do you want to copy existing state to the new backend?
+      Pre-existing state was found while migrating the previous "local" backend to the
+      newly configured "atlas" backend. No existing state was found in the newly
+      configured "atlas" backend. Do you want to copy this state to the new "atlas"
+      backend? Enter "yes" to copy and "no" to start with an empty state.
 
-  Enter a value: yes
+      Enter a value: yes
 
 
-Successfully configured the backend "atlas"! Terraform will automatically
-use this backend unless the backend configuration changes.
+    Successfully configured the backend "atlas"! Terraform will automatically
+    use this backend unless the backend configuration changes.
 
-Initializing provider plugins...
+    Initializing provider plugins...
 
-The following providers do not have any version constraints in configuration,
-so the latest version was installed.
+    The following providers do not have any version constraints in configuration,
+    so the latest version was installed.
 
-To prevent automatic upgrades to new major versions that may contain breaking
-changes, it is recommended to add version = "..." constraints to the
-corresponding provider blocks in configuration, with the constraint strings
-suggested below.
+    To prevent automatic upgrades to new major versions that may contain breaking
+    changes, it is recommended to add version = "..." constraints to the
+    corresponding provider blocks in configuration, with the constraint strings
+    suggested below.
 
-* provider.null: version = "~> 2.1"
+    * provider.null: version = "~> 2.1"
 
-Terraform has been successfully initialized!
+    Terraform has been successfully initialized!
 
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
+    You may now begin working with Terraform. Try running "terraform plan" to see
+    any changes that are required for your infrastructure. All Terraform commands
+    should now work.
 
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
-```
-
-- Now we can got oour worksapce dashboard 
+    If you ever set or change modules or backend configuration for Terraform,
+    rerun this command to reinitialize your working directory. If you forget, other
+    commands will detect it and remind you to do so if necessary.
+    ```
+- Now we can go to our workspace dashboard 
 And see that indeed, here is the one and only state :
 ![Fresh state](fresh-state.png) 
 
